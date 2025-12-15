@@ -28,7 +28,8 @@ class Button:
         else:
             self.color =  self.standart_color
     def action(self):
-
+        self.action_ = False
+        temp_pressed = self.pressed
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_x, mouse_y):
             if_pressed = pygame.mouse.get_pressed()
@@ -39,7 +40,9 @@ class Button:
         else:
             self.pressed = False
 
-
+        if temp_pressed == True:
+            if temp_pressed != self.pressed:
+                self.action_ = True
 
 
 
