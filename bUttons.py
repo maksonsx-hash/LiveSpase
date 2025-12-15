@@ -12,6 +12,7 @@ class Button:
         self.text_rect = self.text_img.get_rect()
         self.text_rect.center = self.rect.center
         self.pressed = False
+        self.action_ = False
     def draw(self, screen):
         pygame.draw.rect(screen,self.color, self.rect,border_radius=10)
         screen.blit(self.text_img, self.text_rect)
