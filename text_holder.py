@@ -9,6 +9,7 @@ class TextHolder:
         self.text_rect = self.text_img.get_rect()
         self.text_rect.center = self.rect.center
     def change_text(self, text):
+        text = f'{text[0]}-{text[1]}'
         self.text_img = font.render(text, True, (0, 0, 0))
         self.text_rect = self.text_img.get_rect()
         self.text_rect.center = self.rect.center

@@ -1,5 +1,6 @@
 
 from init import *
+from config import SCREEN_SIZE,  SCREEN_INDEX
 
 
 
@@ -51,6 +52,17 @@ while running:
                     background_index += 1
                     if background_index > len(background_image_list) - 1:
                         background_index = 0
+                if button == set_button_size_b:
+                    SCREEN_INDEX += 1
+                if button == set_button_size_s:
+                    SCREEN_INDEX -= 1
+                if SCREEN_INDEX > len(SCREEN_SIZE) -1:
+                    SCREEN_INDEX = 0
+                if SCREEN_INDEX < 0:
+                    SCREEN_INDEX = len(SCREEN_SIZE) -1
+                text_tuple = SCREEN_SIZE[SCREEN_INDEX]
+                screen_size_holder.change_text(text_tuple)
+
         screen_size_holder.draw(screen)
     elif screen_mod == 'save':
         screen.fill((255, 255, 255))
