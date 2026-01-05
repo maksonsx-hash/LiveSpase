@@ -1,7 +1,8 @@
 
 from init import *
-from config import SCREEN_SIZE,  SCREEN_INDEX
+from config import SCREEN_SIZE,  SCREEN_INDEX,BACKGROUND_INDEX
 
+from utils import save_settings
 
 
 pygame.init()
@@ -22,7 +23,7 @@ while running:
     if keys[pygame.K_ESCAPE]:
         screen_mod = 'menu'
     if screen_mod == 'menu':
-        screen.blit(background_image_list[background_index], (0, 0))
+        screen.blit(background_image_list[BACKGROUND_INDEX], (0, 0))
 
         for button in main_buttons_list:
             button.update(screen)
@@ -43,15 +44,15 @@ while running:
     elif screen_mod == 'continue':
         screen.fill((0, 255, 0))
     elif screen_mod == 'settings':
-        screen.blit(background_image_list[background_index], (0, 0))
+        screen.blit(background_image_list[BACKGROUND_INDEX], (0, 0))
         for button in setting_button_list:
             button.update(screen)
 
             if button.action_:
                 if button == set_button_background:
-                    background_index += 1
-                    if background_index > len(background_image_list) - 1:
-                        background_index = 0
+                    BACKGROUND_INDEX += 1
+                    if BACKGROUND_INDEX > len(background_image_list) - 1:
+                        BACKGROUND_INDEX = 0
                 if button == set_button_size_b:
                     SCREEN_INDEX += 1
                 if button == set_button_size_s:
@@ -68,3 +69,6 @@ while running:
         screen.fill((255, 255, 255))
 
     pygame.display.update()
+data = {'SCREEN_INDEX':SCREEN_INDEX,'BACKGROUND_INDEX':BACKGROUND_INDEX}
+save_settings(data)
+print(data)
