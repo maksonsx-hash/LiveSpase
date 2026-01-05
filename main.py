@@ -1,3 +1,7 @@
+import random
+from tile import Tile
+
+import pygame
 
 from init import *
 from config import SCREEN_SIZE,  SCREEN_INDEX,BACKGROUND_INDEX
@@ -7,7 +11,13 @@ from utils import save_settings
 
 pygame.init()
 
-
+map = []
+for y in range(45):
+    row = []
+    for x in range(80):
+        tile = Tile(x, y)
+        row.append(tile)
+    map.append(row)
 running = True
 screen = pygame.display.set_mode((S_W, S_H))
 clock = pygame.time.Clock()
@@ -41,6 +51,9 @@ while running:
                     screen_mod = 'save'
     elif screen_mod == 'newgame':
         screen.fill((0, 0, 0))
+        for row in map:
+            for tile in row:
+                tile.draw(screen)
     elif screen_mod == 'continue':
         screen.fill((0, 255, 0))
     elif screen_mod == 'settings':
