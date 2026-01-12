@@ -15,7 +15,14 @@ map = []
 for y in range(45):
     row = []
     for x in range(80):
-        tile = Tile(x, y)
+        chance = random.randint(0, 100)
+        if chance in range(0, 70):
+            tile_type_ = 'sand'
+        elif chance in range(71, 90):
+            tile_type_ = 'ground'
+        elif chance in range(91, 100):
+            tile_type_ = 'rock'
+        tile = Tile(x, y, tile_type_)
         row.append(tile)
     map.append(row)
 running = True
