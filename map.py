@@ -1,0 +1,37 @@
+import random
+from tile import Tile
+
+class Map:
+    def __init__(self):
+        self.map = None
+        self.global_map = []
+        self.create_global_map()
+        self.x,self.y = 4,4
+        self.map = self.global_map[self.y][self.x]
+
+
+
+    def create_map(self):
+        self.map = []
+        for y in range(45):
+            row = []
+            for x in range(80):
+                chance = random.randint(0, 100)
+                if chance in range(0, 70):
+                    tile_type_ = 'sand'
+                elif chance in range(71, 90):
+                    tile_type_ = 'ground'
+                else:
+                    tile_type_ = 'rock'
+                tile = Tile(x, y, tile_type_)
+                row.append(tile)
+            self.map.append(row)
+
+
+    def create_global_map(self):
+        for row in range (10):
+            one_row = []
+            for map_ in range(10):
+                self.create_map()
+                one_row.append(self.map)
+            self.global_map.append(one_row)

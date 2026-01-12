@@ -1,4 +1,7 @@
 import random
+
+from player import Player
+from map import Map
 from tile import Tile
 
 import pygame
@@ -11,20 +14,10 @@ from utils import save_settings
 
 pygame.init()
 
-map = []
-for y in range(45):
-    row = []
-    for x in range(80):
-        chance = random.randint(0, 100)
-        if chance in range(0, 70):
-            tile_type_ = 'sand'
-        elif chance in range(71, 90):
-            tile_type_ = 'ground'
-        elif chance in range(91, 100):
-            tile_type_ = 'rock'
-        tile = Tile(x, y, tile_type_)
-        row.append(tile)
-    map.append(row)
+
+player = Player(S_W/2,S_H/2)
+map_ = Map()
+
 running = True
 screen = pygame.display.set_mode((S_W, S_H))
 clock = pygame.time.Clock()
@@ -58,9 +51,11 @@ while running:
                     screen_mod = 'save'
     elif screen_mod == 'newgame':
         screen.fill((0, 0, 0))
-        for row in map:
+        for row in map_.map:
             for tile in row:
                 tile.draw(screen)
+        player.draw(screen)
+        player.move()
     elif screen_mod == 'continue':
         screen.fill((0, 255, 0))
     elif screen_mod == 'settings':
