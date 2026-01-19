@@ -15,8 +15,8 @@ from utils import save_settings
 pygame.init()
 
 
-player = Player(S_W/2,S_H/2)
-map_ = Map()
+player = None
+map_ = None
 
 running = True
 screen = pygame.display.set_mode((S_W, S_H))
@@ -49,15 +49,20 @@ while running:
                     screen_mod = 'settings'
                 elif button == button_save:
                     screen_mod = 'save'
-    elif screen_mod == 'newgame':
+
+    elif screen_mod == 'game':
         screen.fill((0, 0, 0))
         for row in map_.map:
             for tile in row:
                 tile.draw(screen)
         player.draw(screen)
         player.move()
+    elif screen_mod == 'newgame':
+        player = Player(S_W/2,S_H/2)
+        map_ = Map()
+        screen_mod = 'game'
     elif screen_mod == 'continue':
-        screen.fill((0, 255, 0))
+        screen_mod = 'game'
     elif screen_mod == 'settings':
         screen.blit(background_image_list[BACKGROUND_INDEX], (0, 0))
         for button in setting_button_list:
@@ -81,7 +86,10 @@ while running:
 
         screen_size_holder.draw(screen)
     elif screen_mod == 'save':
-        screen.fill((255, 255, 255))
+        data = {'SCREEN_INDEX': SCREEN_INDEX, 'BACKGROUND_INDEX': BACKGROUND_INDEX}
+        save_settings(data)
+        print('игра сохранена')
+
 
     pygame.display.update()
 data = {'SCREEN_INDEX':SCREEN_INDEX,'BACKGROUND_INDEX':BACKGROUND_INDEX}

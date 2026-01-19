@@ -10,6 +10,14 @@ class Map:
         self.map = self.global_map[self.y][self.x]
 
 
+    def save_map(self):
+        data = {'global_pos':(self.x,self.y)}
+        for cell in self.global_map:
+            for row in cell:
+                for tile in row:
+
+
+
 
     def create_map(self):
         self.map = []
