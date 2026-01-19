@@ -11,10 +11,22 @@ class Map:
 
 
     def save_map(self):
-        data = {'global_pos':(self.x,self.y)}
-        for cell in self.global_map:
-            for row in cell:
-                for tile in row:
+        data = {'global_pos':(self.x,self.y),
+                'global_map': []}
+        for cell_row in self.global_map:
+            cell_row_temp = []
+            for cell in cell_row:
+                local_map = []
+                for row in cell:
+                    row_temp = []
+                    for tile in row:
+                        row_temp.append(tile.save_tile())
+                    local_map.append(row_temp)
+                cell_row_temp.append(local_map)
+            data['global_map'].append(cell_row_temp)
+        return data
+
+
 
 
 

@@ -10,6 +10,13 @@ class Tile:
         self.color = None
         self.change_color()
 
+    def save_tile(self):
+        data = {'size': self.hit_box.height,
+                'pos': (self.hit_box.x, self.hit_box.y),
+                'type': self.type_,
+                'color': self.color,}
+        return data
+
 
     def draw(self, surface):
         pygame.draw.rect(surface, self.color, self.hit_box)

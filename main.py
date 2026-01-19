@@ -86,9 +86,11 @@ while running:
 
         screen_size_holder.draw(screen)
     elif screen_mod == 'save':
-        data = {'SCREEN_INDEX': SCREEN_INDEX, 'BACKGROUND_INDEX': BACKGROUND_INDEX}
-        save_settings(data)
+        saved_map = map_.save_map()
+
+        save_settings(saved_map, 'map.json')
         print('игра сохранена')
+        screen_mod = 'menu'
 
 
     pygame.display.update()
