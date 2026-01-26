@@ -50,6 +50,7 @@ while running:
                 elif button == button_save:
                     screen_mod = 'save'
 
+
     elif screen_mod == 'game':
         screen.fill((0, 0, 0))
         for row in map_.map:
@@ -62,8 +63,10 @@ while running:
         map_ = Map()
         screen_mod = 'game'
     elif screen_mod == 'continue':
-        player = Player(S_W / 2, S_H / 2)
+
         map_ = Map(new_game=False)
+        x,y = map_.player_pos
+        player = Player(x,y)
         screen_mod = 'game'
     elif screen_mod == 'settings':
         screen.blit(background_image_list[BACKGROUND_INDEX], (0, 0))
@@ -88,11 +91,13 @@ while running:
 
         screen_size_holder.draw(screen)
     elif screen_mod == 'save':
-        saved_map = map_.save_map()
+        saved_map = map_.save_map(player_pos=player.hit_box.center)
 
         save_settings(saved_map, 'map.json')
         print('игра сохранена')
         screen_mod = 'menu'
+        if button_cont not in main_buttons_list:
+            main_buttons_list.append(button_cont)
 
 
     pygame.display.update()

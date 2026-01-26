@@ -10,8 +10,9 @@ class Map:
         self.x, self.y = 4, 4
         if new_game:
             self.create_global_map()
+            self.player_pos = 0,0
         else:
-            self.load_map()
+            self.player_pos = self.load_map()
         self.map = self.global_map[self.y][self.x]
 
     def load_map(self):
@@ -33,10 +34,14 @@ class Map:
             self.global_map.append(cell_row_temp)
         self.map = self.global_map[self.y][self.x]
 
+        return data.get('player_pos')
 
-    def save_map(self):
+
+    def save_map(self,player_pos):
         data = {'global_pos':(self.x,self.y),
-                'global_map': []}
+                'player_pos':player_pos,
+                'global_map': [],
+                }
         for cell_row in self.global_map:
             cell_row_temp = []
             for cell in cell_row:

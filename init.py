@@ -1,4 +1,5 @@
 import pygame
+import os
 from text_holder import TextHolder
 
 from bUttons import Button
@@ -15,7 +16,12 @@ set_button_size_b = Button(400, 55, 75, 50, 'green', '>')
 set_button_size_s = Button(200, 55, 75, 50, 'green', '<')
 screen_size_holder = TextHolder(300, 55, 100, 50, 'white', f'{S_W}-{S_H}')
 
-main_buttons_list = [button_ng, button_cont, button_save, button_set, button_exit]
+
+
+main_buttons_list = [button_ng, button_save, button_set, button_exit]
+if os.path.exists('map.json'):
+    main_buttons_list.append(button_cont)
+
 setting_button_list = [set_button_background, set_button_size_b, set_button_size_s]
 
 background_image = pygame.image.load('images/main_background1.png')
