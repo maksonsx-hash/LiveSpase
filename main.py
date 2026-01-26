@@ -62,6 +62,8 @@ while running:
         map_ = Map()
         screen_mod = 'game'
     elif screen_mod == 'continue':
+        player = Player(S_W / 2, S_H / 2)
+        map_ = Map(new_game=False)
         screen_mod = 'game'
     elif screen_mod == 'settings':
         screen.blit(background_image_list[BACKGROUND_INDEX], (0, 0))

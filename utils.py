@@ -5,4 +5,4 @@ def save_settings(data, file_name='Save.json'):
 def load_settings(file_name='Save.json'):
     with open(file_name, 'r', encoding='UTF-8') as file:
         data = load(file)
-        return data
+    return data

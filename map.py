@@ -1,12 +1,36 @@
 import random
 from tile import Tile
+from utils import load_settings
+
 
 class Map:
-    def __init__(self):
+    def __init__(self, new_game=True):
         self.map = None
         self.global_map = []
-        self.create_global_map()
-        self.x,self.y = 4,4
+        self.x, self.y = 4, 4
+        if new_game:
+            self.create_global_map()
+        else:
+            self.load_map()
+        self.map = self.global_map[self.y][self.x]
+
+    def load_map(self):
+        data = load_settings('map.json')
+        self.x, self.y = data.get('global_pos')
+
+        for cell_row in data.get('global_map'):
+            cell_row_temp = []
+            for cell in cell_row:
+                local_map = []
+                for row in cell:
+                    row_temp = []
+                    for tile in row:
+                        tile_origin = Tile(0, 1, 'fg')
+                        tile_origin.load_tile(tile)
+                        row_temp.append(tile_origin)
+                    local_map.append(row_temp)
+                cell_row_temp.append(local_map)
+            self.global_map.append(cell_row_temp)
         self.map = self.global_map[self.y][self.x]
 
 

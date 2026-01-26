@@ -14,9 +14,16 @@ class Tile:
         data = {'size': self.hit_box.height,
                 'pos': (self.hit_box.x, self.hit_box.y),
                 'type': self.type_,
-                'color': self.color,}
+                'color': self.color, }
         return data
 
+    def load_tile(self, data):
+        self.hit_box = pygame.Rect(data.get('pos')[0],
+                                   data.get('pos')[1],
+                                   data.get('size'),
+                                   data.get('size'))
+        self.type_ = data.get('type')
+        self.color = data.get('color')
 
     def draw(self, surface):
         pygame.draw.rect(surface, self.color, self.hit_box)
