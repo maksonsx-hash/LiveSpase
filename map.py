@@ -1,20 +1,33 @@
 import random
+
 from tile import Tile
 from utils import load_settings
 
 
 class Map:
     def __init__(self, new_game=True):
+        self.show_map = False
         self.map = None
         self.global_map = []
         self.x, self.y = 4, 4
         if new_game:
             self.create_global_map()
-            self.player_pos = 0,0
+            self.player_pos = 0, 0
         else:
             self.player_pos = self.load_map()
         self.map = self.global_map[self.y][self.x]
 
+    def draw_map(self, screen):
+        if self.show_map:
+            y_temp = 0
+            for row_map in self.global_map:
+                x_temp = 0
+                for map_ in row_map:
+                    for row in map_:
+                        for tile in row:
+                            tile.draw_small(screen)
+                    x_temp += 1
+                y_temp += 1
     def load_map(self):
         data = load_settings('map.json')
         self.x, self.y = data.get('global_pos')
@@ -36,10 +49,9 @@ class Map:
 
         return data.get('player_pos')
 
-
-    def save_map(self,player_pos):
-        data = {'global_pos':(self.x,self.y),
-                'player_pos':player_pos,
+    def save_map(self, player_pos):
+        data = {'global_pos': (self.x, self.y),
+                'player_pos': player_pos,
                 'global_map': [],
                 }
         for cell_row in self.global_map:
@@ -55,30 +67,25 @@ class Map:
             data['global_map'].append(cell_row_temp)
         return data
 
-    def change_map(self,side):
+    def change_map(self, side):
         if side == 'right':
             self.x += 1
         elif side == 'left':
             self.x -= 1
         elif side == 'top':
-            self.y -=1
+            self.y -= 1
         elif side == 'bottom':
             self.y += 1
-        if self.x > len(self.global_map[self.y])-1:
+        if self.x > len(self.global_map[self.y]) - 1:
             self.x = 0
         if self.x < 0:
-            self.x = len(self.global_map[self.y])-1
-        if self.y > len(self.global_map)-1:
+            self.x = len(self.global_map[self.y]) - 1
+        if self.y > len(self.global_map) - 1:
             self.y = 0
         if self.y < 0:
-            self.y = len(self.global_map)-1
+            self.y = len(self.global_map) - 1
 
         self.map = self.global_map[self.y][self.x]
-
-
-
-
-
 
     def create_map(self):
         self.map = []
@@ -96,9 +103,8 @@ class Map:
                 row.append(tile)
             self.map.append(row)
 
-
     def create_global_map(self):
-        for row in range (10):
+        for row in range(10):
             one_row = []
             for map_ in range(10):
                 self.create_map()

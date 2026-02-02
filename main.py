@@ -71,6 +71,10 @@ while running:
                 tile.draw(screen)
         player.draw(screen)
         player.move()
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_m]:
+            map_.show_map = not map_.show_map
+        map_.draw_map(screen)
     elif screen_mod == 'newgame':
         player = Player(S_W/2,S_H/2)
         map_ = Map()

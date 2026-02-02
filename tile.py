@@ -5,7 +5,9 @@ import random
 class Tile:
     def __init__(self, x, y, type_):
         size = 16
+        small_size = 2
         self.hit_box = pygame.Rect(x * size, y * size, size, size)
+        self.small_hit_box = pygame.Rect(x * small_size, y * small_size, small_size, small_size)
         self.type_ = type_
         self.color = None
         self.change_color()
@@ -13,6 +15,7 @@ class Tile:
     def save_tile(self):
         data = {'size': self.hit_box.height,
                 'pos': (self.hit_box.x, self.hit_box.y),
+                'small_pos':(self.small_hit_box.x, self.small_hit_box.y),
                 'type': self.type_,
                 'color': self.color, }
         return data
@@ -22,11 +25,18 @@ class Tile:
                                    data.get('pos')[1],
                                    data.get('size'),
                                    data.get('size'))
+        self.small_hit_box = pygame.Rect(data.get('small_pos')[0],
+                                         data.get('small_pos')[1],
+                                         2,
+                                         2)
         self.type_ = data.get('type')
         self.color = data.get('color')
 
     def draw(self, surface):
         pygame.draw.rect(surface, self.color, self.hit_box)
+
+    def draw_small(self, surface):
+        pygame.draw.rect(surface, self.color, self.small_hit_box)
 
     def change_color(self):
         if self.type_ == 'sand':
