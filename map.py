@@ -55,6 +55,26 @@ class Map:
             data['global_map'].append(cell_row_temp)
         return data
 
+    def change_map(self,side):
+        if side == 'right':
+            self.x += 1
+        elif side == 'left':
+            self.x -= 1
+        elif side == 'top':
+            self.y -=1
+        elif side == 'bottom':
+            self.y += 1
+        if self.x > len(self.global_map[self.y])-1:
+            self.x = 0
+        if self.x < 0:
+            self.x = len(self.global_map[self.y])-1
+        if self.y > len(self.global_map)-1:
+            self.y = 0
+        if self.y < 0:
+            self.y = len(self.global_map)-1
+
+        self.map = self.global_map[self.y][self.x]
+
 
 
 

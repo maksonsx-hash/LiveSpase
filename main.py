@@ -53,6 +53,19 @@ while running:
 
     elif screen_mod == 'game':
         screen.fill((0, 0, 0))
+        if player.hit_box.left > S_W:
+            map_.change_map('right')
+            player.hit_box.left = 0
+        elif player.hit_box.right < 0:
+            map_.change_map('left')
+            player.hit_box.right = S_W
+        elif player.hit_box.bottom < 0:
+            map_.change_map('top')
+            player.hit_box.bottom = S_H
+        elif player.hit_box.top > S_H:
+            map_.change_map('bottom')
+            player.hit_box.top = 0
+
         for row in map_.map:
             for tile in row:
                 tile.draw(screen)

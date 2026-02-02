@@ -6,7 +6,7 @@ class Player:
     def __init__(self, x, y):
 
         self.hit_box = pygame.Rect(x, y, 16, 24)
-        self.speed = 1
+        self.speed = 5
         self.color = (0, 0, 0)
 
     def draw(self, surface):
