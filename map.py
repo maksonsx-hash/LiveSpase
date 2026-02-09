@@ -1,5 +1,8 @@
 import random
 
+import pygame.draw
+
+from config import S_W, S_H
 from tile import Tile
 from utils import load_settings
 
@@ -20,14 +23,28 @@ class Map:
     def draw_map(self, screen):
         if self.show_map:
             y_temp = 0
+            side = 65
+            gap = 5
+            depth_y = len(self.global_map)
+            depth_x = len(self.global_map[0])
+            mini_width = side * depth_x + gap * (depth_x - 1)
+            mini_heigh = side * depth_y + gap * (depth_y - 1)
+            shift_x = S_W / 2 - mini_width / 2
+            shift_y = S_H / 2 - mini_heigh / 2
             for row_map in self.global_map:
                 x_temp = 0
                 for map_ in row_map:
-                    for row in map_:
-                        for tile in row:
-                            tile.draw_small(screen)
+                    temp_rect = pygame.Rect(shift_x+(x_temp * (side + gap)), shift_y+(y_temp * (side + gap)), side, side)
+                    if x_temp == self.x and y_temp == self.y:
+                        pygame.draw.rect(screen, '#ADD8E6', temp_rect)
+                    else:
+                        pygame.draw.rect(screen, 'black', temp_rect)
+                    # for row in map_:
+                    #     for tile in row:
+                    #         tile.draw_small(screen)
                     x_temp += 1
                 y_temp += 1
+
     def load_map(self):
         data = load_settings('map.json')
         self.x, self.y = data.get('global_pos')
