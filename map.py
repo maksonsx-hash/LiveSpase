@@ -29,14 +29,35 @@ class Map:
             depth_x = len(self.global_map[0])
             mini_width = side * depth_x + gap * (depth_x - 1)
             mini_heigh = side * depth_y + gap * (depth_y - 1)
-            shift_x = S_W / 2 - mini_width / 2
+            shift_x = S_W / 3.4 - mini_width / 2
             shift_y = S_H / 2 - mini_heigh / 2
+            player_area = [
+                (self.x - 1, self.y - 1), (self.x, self.y - 1), (self.x + 1, self.y - 1),
+                (self.x - 1, self.y),(self.x,self.y),(self.x + 1, self.y),
+                (self.x - 1, self.y + 1), (self.x, self.y + 1), (self.x + 1, self.y + 1)]
+            for index,(cell_x,cell_y) in enumerate(player_area):
+                if cell_x > depth_x-1:
+                    cell_x = 0
+                if cell_y > depth_y-1:
+                    cell_y = 0
+                if cell_x < 0:
+                    cell_x = depth_x-1
+                if cell_y < 0:
+                    cell_y = depth_y-1
+                player_area[index] = cell_x,cell_y
             for row_map in self.global_map:
                 x_temp = 0
                 for map_ in row_map:
-                    temp_rect = pygame.Rect(shift_x+(x_temp * (side + gap)), shift_y+(y_temp * (side + gap)), side, side)
-                    if x_temp == self.x and y_temp == self.y:
-                        pygame.draw.rect(screen, '#ADD8E6', temp_rect)
+                    temp_rect = pygame.Rect(shift_x + (x_temp * (side + gap)), shift_y + (y_temp * (side + gap)), side,
+                                            side)
+                    if (x_temp,y_temp) in player_area:
+
+                        for cell_x,cell_y in player_area:
+
+                            pygame.draw.rect(screen,'yellow',temp_rect)
+                        if x_temp == self.x and y_temp == self.y:
+                            pygame.draw.rect(screen, '#ADD8E6', temp_rect)
+
                     else:
                         pygame.draw.rect(screen, 'black', temp_rect)
                     # for row in map_:
