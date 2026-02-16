@@ -45,6 +45,9 @@ class Map:
                 if cell_y < 0:
                     cell_y = depth_y-1
                 player_area[index] = cell_x,cell_y
+
+            base_player_area = pygame.Rect(mini_width+ shift_x*2,shift_y,S_W-3*shift_x-mini_width,mini_heigh)
+            pygame.draw.rect(screen,'black',base_player_area)
             for row_map in self.global_map:
                 x_temp = 0
                 for map_ in row_map:
@@ -57,12 +60,13 @@ class Map:
                             pygame.draw.rect(screen,'yellow',temp_rect)
                         if x_temp == self.x and y_temp == self.y:
                             pygame.draw.rect(screen, '#ADD8E6', temp_rect)
+                        for row in map_:
+                            for tile in row:
+                                tile.draw_small(screen)
 
                     else:
                         pygame.draw.rect(screen, 'black', temp_rect)
-                    # for row in map_:
-                    #     for tile in row:
-                    #         tile.draw_small(screen)
+
                     x_temp += 1
                 y_temp += 1
 
@@ -114,14 +118,15 @@ class Map:
             self.y -= 1
         elif side == 'bottom':
             self.y += 1
-        if self.x > len(self.global_map[self.y]) - 1:
-            self.x = 0
-        if self.x < 0:
-            self.x = len(self.global_map[self.y]) - 1
+
         if self.y > len(self.global_map) - 1:
             self.y = 0
         if self.y < 0:
             self.y = len(self.global_map) - 1
+        if self.x > len(self.global_map[self.y]) - 1:
+            self.x = 0
+        if self.x < 0:
+            self.x = len(self.global_map[self.y]) - 1
 
         self.map = self.global_map[self.y][self.x]
 
