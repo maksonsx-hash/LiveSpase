@@ -33,36 +33,50 @@ class Map:
             shift_y = S_H / 2 - mini_heigh / 2
             player_area = [
                 (self.x - 1, self.y - 1), (self.x, self.y - 1), (self.x + 1, self.y - 1),
-                (self.x - 1, self.y),(self.x,self.y),(self.x + 1, self.y),
+                (self.x - 1, self.y), (self.x, self.y), (self.x + 1, self.y),
                 (self.x - 1, self.y + 1), (self.x, self.y + 1), (self.x + 1, self.y + 1)]
-            for index,(cell_x,cell_y) in enumerate(player_area):
-                if cell_x > depth_x-1:
+            for index, (cell_x, cell_y) in enumerate(player_area):
+                if cell_x > depth_x - 1:
                     cell_x = 0
-                if cell_y > depth_y-1:
+                if cell_y > depth_y - 1:
                     cell_y = 0
                 if cell_x < 0:
-                    cell_x = depth_x-1
+                    cell_x = depth_x - 1
                 if cell_y < 0:
-                    cell_y = depth_y-1
-                player_area[index] = cell_x,cell_y
+                    cell_y = depth_y - 1
+                player_area[index] = cell_x, cell_y
 
-            base_player_area = pygame.Rect(mini_width+ shift_x*2,shift_y,S_W-3*shift_x-mini_width,mini_heigh)
-            pygame.draw.rect(screen,'black',base_player_area)
+            base_player_area = pygame.Rect(mini_width + shift_x * 2, shift_y, S_W - 3 * shift_x - mini_width,
+                                           mini_heigh)
+            pygame.draw.rect(screen, 'black', base_player_area)
             for row_map in self.global_map:
                 x_temp = 0
                 for map_ in row_map:
                     temp_rect = pygame.Rect(shift_x + (x_temp * (side + gap)), shift_y + (y_temp * (side + gap)), side,
                                             side)
-                    if (x_temp,y_temp) in player_area:
+                    if (x_temp, y_temp) in player_area:
 
-                        for cell_x,cell_y in player_area:
-
-                            pygame.draw.rect(screen,'yellow',temp_rect)
+                        for cell_x, cell_y in player_area:
+                            pygame.draw.rect(screen, 'yellow', temp_rect)
                         if x_temp == self.x and y_temp == self.y:
                             pygame.draw.rect(screen, '#ADD8E6', temp_rect)
-                        for row in map_:
-                            for tile in row:
-                                tile.draw_small(screen)
+                        location_shift_x = mini_width + shift_x * 2
+                        location_shift_y = shift_y
+                        location_depth_y = len(map_)
+                        location_depth_x = len(map_[0])
+                        tile_size = 2
+                        tile_width = location_depth_x * tile_size
+                        tile_heigh = location_depth_y * tile_size
+                        location_gap = 5
+
+                        for index_y, row in enumerate(map_):
+                            for index_x, tile in enumerate(row):
+                                tile_x = location_shift_x + tile_size * index_x + location_gap * x_temp
+                                tile_y = location_shift_y + tile_size * index_y + location_gap * y_temp
+                                tile.draw_small(screen,tile_x, tile_y)
+
+
+
 
                     else:
                         pygame.draw.rect(screen, 'black', temp_rect)

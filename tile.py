@@ -35,8 +35,8 @@ class Tile:
     def draw(self, surface):
         pygame.draw.rect(surface, self.color, self.hit_box)
 
-    def draw_small(self, surface):
-        pygame.draw.rect(surface, self.color, self.small_hit_box)
+    def draw_small(self, surface, tile_x, tile_y):
+        pygame.draw.rect(surface, self.color, (tile_x, tile_y, 2, 2))
 
     def change_color(self):
         if self.type_ == 'sand':
