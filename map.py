@@ -32,19 +32,20 @@ class Map:
             shift_x = S_W / 3.4 - mini_width / 2
             shift_y = S_H / 2 - mini_heigh / 2
             player_area = [
-                (self.x - 1, self.y - 1), (self.x, self.y - 1), (self.x + 1, self.y - 1),
-                (self.x - 1, self.y), (self.x, self.y), (self.x + 1, self.y),
-                (self.x - 1, self.y + 1), (self.x, self.y + 1), (self.x + 1, self.y + 1)]
-            for index, (cell_x, cell_y) in enumerate(player_area):
-                if cell_x > depth_x - 1:
-                    cell_x = 0
-                if cell_y > depth_y - 1:
-                    cell_y = 0
-                if cell_x < 0:
-                    cell_x = depth_x - 1
-                if cell_y < 0:
-                    cell_y = depth_y - 1
-                player_area[index] = cell_x, cell_y
+                [(self.x - 1, self.y - 1), (self.x, self.y - 1), (self.x + 1, self.y - 1)],
+                [(self.x - 1, self.y), (self.x, self.y), (self.x + 1, self.y)],
+                [(self.x - 1, self.y + 1), (self.x, self.y + 1), (self.x + 1, self.y + 1)]]
+            for index_row, row in enumerate(player_area):
+                for index, (cell_x, cell_y) in enumerate(row):
+                    if cell_x > depth_x - 1:
+                        cell_x = 0
+                    if cell_y > depth_y - 1:
+                        cell_y = 0
+                    if cell_x < 0:
+                        cell_x = depth_x - 1
+                    if cell_y < 0:
+                        cell_y = depth_y - 1
+                    player_area[index_row][index] = cell_x, cell_y
 
             base_player_area = pygame.Rect(mini_width + shift_x * 2, shift_y, S_W - 3 * shift_x - mini_width,
                                            mini_heigh)
@@ -71,9 +72,9 @@ class Map:
 
                         for index_y, row in enumerate(map_):
                             for index_x, tile in enumerate(row):
-                                tile_x = location_shift_x + tile_size * index_x + location_gap * x_temp
-                                tile_y = location_shift_y + tile_size * index_y + location_gap * y_temp
-                                tile.draw_small(screen,tile_x, tile_y)
+                                tile_x = location_shift_x + tile_size * index_x + (location_gap + tile_width) * x_temp
+                                tile_y = location_shift_y + tile_size * index_y + (location_gap + tile_heigh) * y_temp
+                                tile.draw_small(screen, tile_x, tile_y)
 
 
 
