@@ -73,14 +73,16 @@ class Map:
                             pygame.draw.rect(screen, '#ADD8E6', temp_rect)
                         else:
                             pygame.draw.rect(screen, 'yellow', temp_rect)
-                        location_shift_x = mini_width + shift_x * 2
-                        location_shift_y = shift_y
+                        tile_size = 2
+                        location_gap = 5
+                        location_shift_x = mini_width + shift_x * 2+tile_size*2
+                        location_shift_y = shift_y+location_gap
                         location_depth_y = len(map_)
                         location_depth_x = len(map_[0])
-                        tile_size = 2
+
                         tile_width = location_depth_x * tile_size
                         tile_heigh = location_depth_y * tile_size
-                        location_gap = 5
+
 
                         for index_y, row in enumerate(map_):
                             for index_x, tile in enumerate(row):
