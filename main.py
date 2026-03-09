@@ -66,7 +66,7 @@ while running:
             map_.change_map('bottom')
             player.hit_box.top = 0
 
-        for row in map_.map:
+        for row in map_.map['map']:
             for tile in row:
                 tile.draw(screen)
         player.draw(screen)

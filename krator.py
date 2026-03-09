@@ -4,7 +4,8 @@ import random
 
 
 class Krator:
-    def __init__(self, x, y, type_):
+    def __init__(self, x, y, type_,invisible=False):
+        self.invisible = invisible
         self.w = random.randint(80, 160)
         self.type_ = type_
         self.chose_color(type_)
@@ -13,11 +14,13 @@ class Krator:
         self.hit_box.center = (x, y)
 
     def draw(self, screen):
-        # pygame.draw.rect(screen, (255, 13, 67), self.hit_box, border_radius=int(self.w / 2))
-        # pygame.draw.rect(screen, (200, 0, 0), self.hit_box2, border_radius=int(self.w / 2))
-        pygame.draw.circle(screen, self.a, self.hit_box.center, self.hit_box.width / 2)
-        pygame.draw.circle(screen, self.b, self.hit_box.center, self.hit_box.width / 3)
-        pygame.draw.circle(screen, self.c, self.hit_box.center, self.hit_box.width / 5)
+        if not self.invisible:
+
+            # pygame.draw.rect(screen, (255, 13, 67), self.hit_box, border_radius=int(self.w / 2))
+            # pygame.draw.rect(screen, (200, 0, 0), self.hit_box2, border_radius=int(self.w / 2))
+            pygame.draw.circle(screen, self.a, self.hit_box.center, self.hit_box.width / 2)
+            pygame.draw.circle(screen, self.b, self.hit_box.center, self.hit_box.width / 3)
+            pygame.draw.circle(screen, self.c, self.hit_box.center, self.hit_box.width / 5)
 
     def chose_color(self, type_):
         if type_ == 'orange':
@@ -28,12 +31,14 @@ class Krator:
             self.a = random.randint(230, 255), random.randint(200, 220), random.randint(0, 10)
             self.b = random.randint(200, 240), random.randint(200, 221), random.randint(100, 140)
             self.c = random.randint(200, 220), random.randint(130, 150), random.randint(30, 50)
-
+        if type_ == None:
+            self.a,self.b,self.c = 0,0,0
     def save(self):
         data = {'type_': self.type_,
                 'pos': self.hit_box.center,
                 'width': self.hit_box.width,
-                'color': self.color}
+                'color': self.color,
+                'invisible':self.invisible}
         return data
 
     def load(self, data):
@@ -43,6 +48,7 @@ class Krator:
         self.hit_box = pygame.Rect(x, y, self.w, self.w)
         self.hit_box.center = (x, y)
         self.color = data.get('color')
+        self.invisible = data.get('invisible')
         self.a, self.b, self.c = self.color
 
 

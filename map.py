@@ -4,6 +4,7 @@ import pygame.draw
 
 from config import S_W, S_H
 from tile import Tile
+from krator import Krator
 from utils import load_settings
 
 
@@ -113,7 +114,9 @@ class Map:
                         row_temp.append(tile_origin)
                     local_map['map'].append(row_temp)
                 krator = cell.get('krator')
-                local_map['krator'] = krator.save()
+
+                e_krator = Krator(0,0,'')
+                local_map['krator'] = e_krator.load(krator)
                 cell_row_temp.append(local_map)
             self.global_map.append(cell_row_temp)
         self.map = self.global_map[self.y][self.x]
@@ -163,8 +166,9 @@ class Map:
         self.map = self.global_map[self.y][self.x]
 
     def create_map(self):
+        krator = Krator(random.randint(80,S_W-80),random.randint(80,S_H-80),)
         self.map = {'map': [],
-                    'krator': None,
+                    'krator': krator,
                     }
         for y in range(45):
             row = []
@@ -184,6 +188,20 @@ class Map:
         for row in range(10):
             one_row = []
             for map_ in range(10):
+                types = ['gold','orange']
+                for i in range(20):
+                    i += 1
+                    if i <= 5:
+                        b = random.randint(1, 100)
+                    if 5 < i <=10:
+
+                        a = random.randint(1,100)
+                    if i >10:
+                        type = random.choice(types)
+                        if type == 'gold':
+                            b = random.randint(1,100)
+                        if type == 'orange':
+                            a = random.randint(1,100)
                 self.create_map()
                 one_row.append(self.map)
             self.global_map.append(one_row)
