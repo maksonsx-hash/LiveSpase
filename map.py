@@ -52,7 +52,6 @@ class Map:
             pygame.draw.rect(screen, 'black', base_player_area)
             temp_area = []
 
-
             for row_map in self.global_map:
                 x_temp = 0
                 for map_ in row_map:
@@ -68,21 +67,19 @@ class Map:
                             temp_area.append(area)
                     if (x_temp, y_temp) in temp_area:
 
-
                         if x_temp == self.x and y_temp == self.y:
                             pygame.draw.rect(screen, '#ADD8E6', temp_rect)
                         else:
                             pygame.draw.rect(screen, 'yellow', temp_rect)
                         tile_size = 2
                         location_gap = 5
-                        location_shift_x = mini_width + shift_x * 2+tile_size*2
-                        location_shift_y = shift_y+location_gap
+                        location_shift_x = mini_width + shift_x * 2 + tile_size * 2
+                        location_shift_y = shift_y + location_gap
                         location_depth_y = len(map_)
                         location_depth_x = len(map_[0])
 
                         tile_width = location_depth_x * tile_size
                         tile_heigh = location_depth_y * tile_size
-
 
                         for index_y, row in enumerate(map_):
                             for index_x, tile in enumerate(row):
@@ -106,14 +103,17 @@ class Map:
         for cell_row in data.get('global_map'):
             cell_row_temp = []
             for cell in cell_row:
-                local_map = []
-                for row in cell:
+                local_map = {'map': [],
+                             'krator': None}
+                for row in cell.get('map'):
                     row_temp = []
                     for tile in row:
                         tile_origin = Tile(0, 1, 'fg')
                         tile_origin.load_tile(tile)
                         row_temp.append(tile_origin)
-                    local_map.append(row_temp)
+                    local_map['map'].append(row_temp)
+                krator = cell.get('krator')
+                local_map['krator'] = krator.save()
                 cell_row_temp.append(local_map)
             self.global_map.append(cell_row_temp)
         self.map = self.global_map[self.y][self.x]
@@ -128,12 +128,15 @@ class Map:
         for cell_row in self.global_map:
             cell_row_temp = []
             for cell in cell_row:
-                local_map = []
-                for row in cell:
+                local_map = {'map': [],
+                             'krator': None}
+                for row in cell.get('map'):
                     row_temp = []
                     for tile in row:
                         row_temp.append(tile.save_tile())
-                    local_map.append(row_temp)
+                    local_map['map'].append(row_temp)
+                krator = cell.get('krator')
+                local_map['krator'] = krator.save()
                 cell_row_temp.append(local_map)
             data['global_map'].append(cell_row_temp)
         return data
@@ -160,7 +163,9 @@ class Map:
         self.map = self.global_map[self.y][self.x]
 
     def create_map(self):
-        self.map = []
+        self.map = {'map': [],
+                    'krator': None,
+                    }
         for y in range(45):
             row = []
             for x in range(80):
@@ -173,7 +178,7 @@ class Map:
                     tile_type_ = 'rock'
                 tile = Tile(x, y, tile_type_)
                 row.append(tile)
-            self.map.append(row)
+            self.map['map'].append(row)
 
     def create_global_map(self):
         for row in range(10):

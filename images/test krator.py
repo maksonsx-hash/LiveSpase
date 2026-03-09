@@ -1,10 +1,6 @@
 import random
 
-import pygame
 
-S_W = 500
-S_H = 500
-screen = pygame.display.set_mode((S_W, S_H))
 
 
 class Krator:
@@ -25,13 +21,13 @@ class Krator:
 
     def chose_color(self, type_):
         if type_ == 'orange':
-            self.a = random.randint(200, 255), random.randint(0, 50), random.randint(50, 100)
-            self.b = random.randint(200, 255), random.randint(0, 10), random.randint(70, 100)
-            self.c = random.randint(200, 255), random.randint(90, 100), random.randint(50, 100)
+            self.a = random.randint(200, 255), random.randint(100, 165), random.randint(0, 50)
+            self.b = random.randint(200, 255), random.randint(60, 76), random.randint(0, 10)
+            self.c = random.randint(200, 255), random.randint(140, 160), random.randint(0, 40)
         if type_ == 'gold':
-            self.a = random.randint(100, 155), random.randint(0, 50), random.randint(50, 100)
-            self.b = random.randint(100, 155), random.randint(0, 10), random.randint(70, 100)
-            self.c = random.randint(100, 155), random.randint(90, 100), random.randint(50, 100)
+            self.a = random.randint(230, 255), random.randint(200, 220), random.randint(0, 10)
+            self.b = random.randint(200, 240), random.randint(200, 221), random.randint(100, 140)
+            self.c = random.randint(200, 220), random.randint(130, 150), random.randint(30, 50)
 
     def save(self):
         data = {'type_': self.type_,
@@ -50,12 +46,19 @@ class Krator:
         self.a, self.b, self.c = self.color
 
 
-running = True
-a = Krator(250, 250, 'gold')
-while running:
+if __name__ == '__main__':
+    import pygame
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-    a.draw(screen)
-    pygame.display.update()
+    S_W = 500
+    S_H = 500
+    screen = pygame.display.set_mode((S_W, S_H))
+    running = True
+    a = Krator(250, 250, 'gold')
+    while running:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        a.draw(screen)
+        pygame.display.update()
+
