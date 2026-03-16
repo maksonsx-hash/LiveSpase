@@ -188,20 +188,53 @@ class Map:
         for row in range(10):
             one_row = []
             for map_ in range(10):
-                types = ['gold','orange']
-                for i in range(20):
-                    i += 1
-                    if i <= 5:
-                        b = random.randint(1, 100)
-                    if 5 < i <=10:
 
-                        a = random.randint(1,100)
-                    if i >10:
-                        type = random.choice(types)
-                        if type == 'gold':
-                            b = random.randint(1,100)
-                        if type == 'orange':
-                            a = random.randint(1,100)
                 self.create_map()
                 one_row.append(self.map)
             self.global_map.append(one_row)
+
+    def random_pos_krator():
+        types = ['gold', 'orange']
+        switch = True
+        i = 0
+        count = 0
+        bad_pos = {'orange': [], 'gold': []}
+        while switch:
+            i += 1
+            if i <= 5:
+                b = random.randint(1, 10), random.randint(1, 10)
+                if b in bad_pos:
+                    continue
+                bad_pos['gold'].append(b)
+                count += 1
+            if 5 < i <= 10:
+                a = random.randint(1, 10), random.randint(1, 10)
+                if a in bad_pos:
+                    continue
+                bad_pos['orange'].append(a)
+
+                count += 1
+            if i > 10:
+                type = random.choice(types)
+                if type == 'gold':
+                    b = random.randint(1, 10), random.randint(1, 10)
+                    if b in bad_pos:
+                        continue
+                    bad_pos['gold'].append(b)
+
+                    count += 1
+                    if count == 20:
+                        switch = False
+                if type == 'orange':
+                    a = random.randint(1, 10), random.randint(1, 10)
+                    if a in bad_pos:
+                        continue
+                    bad_pos['orange'].append(a)
+
+                    count += 1
+                    if count == 20:
+                        switch = False
+        return bad_pos
+
+
+
