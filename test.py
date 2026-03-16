@@ -1,21 +1,22 @@
 import random
 
 
-def random_pos_krator1(types_krator):
+def random_pos_krator1(types_krator, max_cell=20):
     bad_pos = {}
     for i in types_krator:
         bad_pos[i] = []
-    switch = True
-    i = 0
-    count = 0
+    unic_values = []
     for i in types_krator:
-        for j in range(4):
+        count = 0
+        while count != max_cell // len(types_krator):
             b = random.randint(1, 10), random.randint(1, 10)
-            if b in bad_pos.values():
+            if b in unic_values:
                 continue
             bad_pos[i].append(b)
-
+            unic_values.append(b)
+            count += 1
     return bad_pos
+
 
 def random_pos_krator(types_krator):
     bad_pos = {}
@@ -62,12 +63,6 @@ def random_pos_krator(types_krator):
     return bad_pos
 
 
-types = ['gold','orange','iron','brbr','blue']
+types = ['gold', 'orange', 'iron']
 
-print(random_pos_krator1(types))
-
-
-
-
-
-
+print(random_pos_krator1(types, 10))
