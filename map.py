@@ -116,7 +116,8 @@ class Map:
                 krator = cell.get('krator')
 
                 e_krator = Krator(0,0,'')
-                local_map['krator'] = e_krator.load(krator)
+                e_krator.load(krator)
+                local_map['krator'] = e_krator
                 cell_row_temp.append(local_map)
             self.global_map.append(cell_row_temp)
         self.map = self.global_map[self.y][self.x]
