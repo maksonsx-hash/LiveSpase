@@ -69,6 +69,7 @@ while running:
         for row in map_.map['map']:
             for tile in row:
                 tile.draw(screen)
+        map_.map['krator'].draw(screen)
         player.draw(screen)
         player.move()
         keys = pygame.key.get_pressed()

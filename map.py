@@ -76,13 +76,13 @@ class Map:
                         location_gap = 5
                         location_shift_x = mini_width + shift_x * 2 + tile_size * 2
                         location_shift_y = shift_y + location_gap
-                        location_depth_y = len(map_)
-                        location_depth_x = len(map_[0])
+                        location_depth_y = len(map_['map'])
+                        location_depth_x = len(map_['map'][0])
 
                         tile_width = location_depth_x * tile_size
                         tile_heigh = location_depth_y * tile_size
 
-                        for index_y, row in enumerate(map_):
+                        for index_y, row in enumerate(map_['map']):
                             for index_x, tile in enumerate(row):
                                 tile_x = location_shift_x + tile_size * index_x + (location_gap + tile_width) * local_x
                                 tile_y = location_shift_y + tile_size * index_y + (location_gap + tile_heigh) * local_y
@@ -165,8 +165,8 @@ class Map:
 
         self.map = self.global_map[self.y][self.x]
 
-    def create_map(self):
-        krator = Krator(random.randint(80,S_W-80),random.randint(80,S_H-80),)
+    def create_map(self, type_=None):
+        krator = Krator(random.randint(80,S_W-80),random.randint(80,S_H-80), type_)
         self.map = {'map': [],
                     'krator': krator,
                     }
@@ -186,11 +186,20 @@ class Map:
 
     def create_global_map(self):
         crator_pos = self.random_pos_krator(['gold', 'orange'], 20)
-        for row in range(10):
+        for y in range(1, 11):
             one_row = []
-            for map_ in range(10):
+            for x in range(1, 11):
+                current_map_pos = x, y
+                if current_map_pos in crator_pos ['gold']:
+                    self.create_map('gold')
+                    print(current_map_pos)
+                elif current_map_pos in crator_pos ['orange']:
+                    self.create_map('orange')
+                    print(current_map_pos)
+                else:
+                    self.create_map()
 
-                self.create_map()
+
                 one_row.append(self.map)
             self.global_map.append(one_row)
 

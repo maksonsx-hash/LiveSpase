@@ -1,11 +1,12 @@
 import random
+import pygame
 
 
 
 
 class Krator:
-    def __init__(self, x, y, type_,invisible=False):
-        self.invisible = invisible
+    def __init__(self, x, y, type_):
+        self.invisible = False if type_ else True
         self.w = random.randint(80, 160)
         self.type_ = type_
         self.chose_color(type_)
@@ -27,11 +28,11 @@ class Krator:
             self.a = random.randint(200, 255), random.randint(100, 165), random.randint(0, 50)
             self.b = random.randint(200, 255), random.randint(60, 76), random.randint(0, 10)
             self.c = random.randint(200, 255), random.randint(140, 160), random.randint(0, 40)
-        if type_ == 'gold':
+        elif type_ == 'gold':
             self.a = random.randint(230, 255), random.randint(200, 220), random.randint(0, 10)
             self.b = random.randint(200, 240), random.randint(200, 221), random.randint(100, 140)
             self.c = random.randint(200, 220), random.randint(130, 150), random.randint(30, 50)
-        if type_ == None:
+        else:
             self.a,self.b,self.c = 0,0,0
     def save(self):
         data = {'type_': self.type_,
@@ -50,6 +51,9 @@ class Krator:
         self.color = data.get('color')
         self.invisible = data.get('invisible')
         self.a, self.b, self.c = self.color
+    def __str__(self):
+        text = f'''тип:{self.type_}, цвет:{self.color}, место:{self.hit_box.center}, прозрачность:{self.invisible}'''
+        return text
 
 
 if __name__ == '__main__':
