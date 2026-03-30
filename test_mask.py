@@ -3,69 +3,35 @@ from pygame.math import Vector2
 
 
 pg.init()
-screen = pg.display.set_mode((640, 480))
+screen = pg.display.set_mode((800, 600))
 clock = pg.time.Clock()
 BG_COLOR = pg.Color(30, 90, 0)
 
-# You need surfaces with an alpha channel to
-# create masks, therefore pass `pg.SRCALPHA`.
-REDGOAL = pg.Surface((90, 150), pg.SRCALPHA)
-REDGOAL.fill((255, 0, 0))
-redgoal_rect = REDGOAL.get_rect(topleft=(100, 200))
-redgoal_mask = pg.mask.from_surface(REDGOAL)
-
-BALL = pg.Surface((30, 30), pg.SRCALPHA)
-pg.draw.circle(BALL, [250, 250, 250], [15, 15], 15)
-# Ball variables.
-ball_pos = Vector2(275, 200)
-ballrect = BALL.get_rect(center=ball_pos)
-ball_vel = Vector2(0, 0)
-ball_mask = pg.mask.from_surface(BALL)
-
+a = pg.Rect(10,10,100,100)
+b = pg.Rect(120,10,100,100)
+a1 = (255,255,255,100)
+b1 = (255,255,255)
+f = 0
+fog = pg.Surface((800, 600), pg.SRCALPHA)
 done = False
+timer = 0
 while not done:
+    timer+=1
     for event in pg.event.get():
         if event.type == pg.QUIT:
             done = True
-        elif event.type == pg.KEYDOWN:
-            if event.key == pg.K_a:
-                ball_vel.x = -7
-            elif event.key == pg.K_d:
-                ball_vel.x = 8
-            elif event.key == pg.K_w:
-                ball_vel.y = -3
-            elif event.key == pg.K_s:
-                ball_vel.y = 5
 
-    ball_vel *= .94  # Friction.
-    ball_pos += ball_vel
-    ballrect.center = ball_pos
 
-    if ballrect.top < 0 and ball_vel.y < 0:
-        ball_vel.y *= -1
-    elif ballrect.bottom > screen.get_height() and ball_vel.y > 0:
-        ball_vel.y *= -1
-    if ballrect.left < 0 and ball_vel.x < 0:
-        ball_vel.x *= -1
-    elif ballrect.right > screen.get_width() and ball_vel.x > 0:
-        ball_vel.x *= -1
+    f+=clock.get_rawtime()
+    print(f,clock.get_rawtime())
 
-    # Rect collision.
-    # if ballrect.colliderect(redgoal_rect):
-    #     print('goal!')
 
-    # Calculate the offset between the objects.
-    offset = redgoal_rect[0] - ballrect[0], redgoal_rect[1] - ballrect[1]
-    # Pass the offset to the `overlap` method. If the masks collide,
-    # overlap will return a single point, otherwise `None`.
-    overlap = ball_mask.overlap(redgoal_mask, offset)
-
-    if overlap:
-        print('goal!')
 
     screen.fill(BG_COLOR)
-    screen.blit(BALL, ballrect)
-    screen.blit(REDGOAL, redgoal_rect)
+    pg.draw.rect(screen,a1,a)
+    pg.draw.rect(screen,b1,b)
+    fog.fill((10,10,10,100))
+    screen.blit(fog,(0,0))
     pg.display.flip()
     clock.tick(60)
 

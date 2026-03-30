@@ -22,6 +22,7 @@ running = True
 screen = pygame.display.set_mode((S_W, S_H))
 clock = pygame.time.Clock()
 screen_mod = 'menu'
+fog = pygame.Surface((S_W, S_H), pygame.SRCALPHA)
 
 
 while running:
@@ -65,6 +66,10 @@ while running:
         elif player.hit_box.top > S_H:
             map_.change_map('bottom')
             player.hit_box.top = 0
+        if typ == 'night':
+            alpha =
+        fog.fill((10, 10, 10, alpha))
+        screen.blit(fog, (0, 0))
 
         for row in map_.map['map']:
             for tile in row:
