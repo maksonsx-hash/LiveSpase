@@ -7,13 +7,11 @@ from tile import Tile
 import pygame
 
 from init import *
-from config import SCREEN_SIZE,  SCREEN_INDEX,BACKGROUND_INDEX
+from config import SCREEN_SIZE, SCREEN_INDEX, BACKGROUND_INDEX
 
 from utils import save_settings
 
-
 pygame.init()
-
 
 player = None
 map_ = None
@@ -22,11 +20,24 @@ running = True
 screen = pygame.display.set_mode((S_W, S_H))
 clock = pygame.time.Clock()
 screen_mod = 'menu'
-fog = pygame.Surface((S_W, S_H), pygame.SRCALPHA)
 
+fog = pygame.Surface((S_W, S_H), pygame.SRCALPHA)
+alpha = 0
+
+timer = 0
+
+fps = 120
+seconds = 10
+
+day = 1 * seconds * fps
+night = 1 * seconds * fps
+sun_move = 1 * seconds * fps
+
+curent_time = 'day'
 
 while running:
-    clock.tick(120)
+    timer += 1
+    clock.tick(fps)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -66,30 +77,59 @@ while running:
         elif player.hit_box.top > S_H:
             map_.change_map('bottom')
             player.hit_box.top = 0
-        if typ == 'night':
-            alpha =
-        fog.fill((10, 10, 10, alpha))
-        screen.blit(fog, (0, 0))
 
         for row in map_.map['map']:
             for tile in row:
                 tile.draw(screen)
+
         map_.map['krator'].draw(screen)
+
         player.draw(screen)
         player.move()
+
+        print((day - timer) // 60, curent_time)
+        if curent_time == 'day':
+            alpha = 0
+            if timer > day:
+                timer = 0
+                curent_time = 'sunset'
+
+        elif curent_time == 'sunset':
+
+            alpha = (timer / sun_move) * 200
+            if timer > sun_move:
+                timer = 0
+                curent_time = 'night'
+
+        elif curent_time == 'night':
+            alpha = 200
+            if timer > night:
+                timer = 0
+                curent_time = 'sunrise'
+
+        elif curent_time == 'sunrise':
+
+            alpha = 200 - (timer / sun_move) * 200
+            if timer > sun_move:
+                timer = 0
+                curent_time = 'day'
+        alpha = max(0, min(200, alpha))
+        fog.fill((10, 10, 10, int(alpha)))
+        screen.blit(fog, (0, 0))
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_m]:
             map_.show_map = not map_.show_map
         map_.draw_map(screen)
     elif screen_mod == 'newgame':
-        player = Player(S_W/2,S_H/2)
+        player = Player(S_W / 2, S_H / 2)
         map_ = Map()
         screen_mod = 'game'
     elif screen_mod == 'continue':
 
         map_ = Map(new_game=False)
-        x,y = map_.player_pos
-        player = Player(x,y)
+        x, y = map_.player_pos
+        player = Player(x, y)
         screen_mod = 'game'
     elif screen_mod == 'settings':
         screen.blit(background_image_list[BACKGROUND_INDEX], (0, 0))
@@ -105,10 +145,10 @@ while running:
                     SCREEN_INDEX += 1
                 if button == set_button_size_s:
                     SCREEN_INDEX -= 1
-                if SCREEN_INDEX > len(SCREEN_SIZE) -1:
+                if SCREEN_INDEX > len(SCREEN_SIZE) - 1:
                     SCREEN_INDEX = 0
                 if SCREEN_INDEX < 0:
-                    SCREEN_INDEX = len(SCREEN_SIZE) -1
+                    SCREEN_INDEX = len(SCREEN_SIZE) - 1
                 text_tuple = SCREEN_SIZE[SCREEN_INDEX]
                 screen_size_holder.change_text(text_tuple)
 
@@ -122,8 +162,7 @@ while running:
         if button_cont not in main_buttons_list:
             main_buttons_list.append(button_cont)
 
-
     pygame.display.update()
-data = {'SCREEN_INDEX':SCREEN_INDEX,'BACKGROUND_INDEX':BACKGROUND_INDEX}
+data = {'SCREEN_INDEX': SCREEN_INDEX, 'BACKGROUND_INDEX': BACKGROUND_INDEX}
 save_settings(data)
 print(data)
