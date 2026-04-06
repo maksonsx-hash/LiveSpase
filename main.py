@@ -33,7 +33,7 @@ day = 1 * seconds * fps
 night = 1 * seconds * fps
 sun_move = 1 * seconds * fps
 
-curent_time = 'day'
+current_time = 'day'
 
 while running:
     timer += 1
@@ -64,6 +64,8 @@ while running:
 
 
     elif screen_mod == 'game':
+
+
         screen.fill((0, 0, 0))
         if player.hit_box.left > S_W:
             map_.change_map('right')
@@ -87,32 +89,33 @@ while running:
         player.draw(screen)
         player.move()
 
-        print((day - timer) // 60, curent_time)
-        if curent_time == 'day':
+        print((day - timer) // 60, current_time)
+        if current_time == 'day':
             alpha = 0
             if timer > day:
-                timer = 0
-                curent_time = 'sunset'
 
-        elif curent_time == 'sunset':
+                timer = 0
+                current_time = 'sunset'
+
+        elif current_time == 'sunset':
 
             alpha = (timer / sun_move) * 200
             if timer > sun_move:
                 timer = 0
-                curent_time = 'night'
+                current_time = 'night'
 
-        elif curent_time == 'night':
+        elif current_time == 'night':
             alpha = 200
             if timer > night:
                 timer = 0
-                curent_time = 'sunrise'
+                current_time = 'sunrise'
 
-        elif curent_time == 'sunrise':
+        elif current_time == 'sunrise':
 
             alpha = 200 - (timer / sun_move) * 200
             if timer > sun_move:
                 timer = 0
-                curent_time = 'day'
+                current_time = 'day'
         alpha = max(0, min(200, alpha))
         fog.fill((10, 10, 10, int(alpha)))
         screen.blit(fog, (0, 0))
@@ -131,6 +134,7 @@ while running:
         x, y = map_.player_pos
         player = Player(x, y)
         screen_mod = 'game'
+        timer,current_time = map_.time
     elif screen_mod == 'settings':
         screen.blit(background_image_list[BACKGROUND_INDEX], (0, 0))
         for button in setting_button_list:
@@ -154,7 +158,8 @@ while running:
 
         screen_size_holder.draw(screen)
     elif screen_mod == 'save':
-        saved_map = map_.save_map(player_pos=player.hit_box.center)
+        saved_map = map_.save_map(timer,current_time,player_pos=player.hit_box.center)
+
 
         save_settings(saved_map, 'map.json')
         print('игра сохранена')

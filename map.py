@@ -121,13 +121,15 @@ class Map:
                 cell_row_temp.append(local_map)
             self.global_map.append(cell_row_temp)
         self.map = self.global_map[self.y][self.x]
+        self.time = data['global_timer']
 
         return data.get('player_pos')
 
-    def save_map(self, player_pos):
+    def save_map(self, timer,current_time ,player_pos):
         data = {'global_pos': (self.x, self.y),
                 'player_pos': player_pos,
                 'global_map': [],
+                'global_timer':(timer,current_time)
                 }
         for cell_row in self.global_map:
             cell_row_temp = []
