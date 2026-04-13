@@ -16,13 +16,22 @@ class Player:
         self.base_hp.topright = (S_W-10,10)
         self.base_stamina = pygame.Rect(0, 0, self.max_stamina * 2, 30)
         self.base_stamina.topright = (S_W - 10, 45)
+        self.hp_now = pygame.Rect(0,0,self.hp*2-10,25)
+        self.hp_now.left = self.base_hp.left+5
+        self.hp_now.centery = self.base_hp.centery
+        self.stamina_now = pygame.Rect(0, 0, self.stamina * 2 - 10, 25)
+        self.stamina_now.left = self.base_stamina.left + 5
+        self.stamina_now.centery = self.base_stamina.centery
+        self.stamina_now.collideobjects()
         
 
     def draw(self, surface):
         pygame.draw.rect(surface, self.color, self.hit_box)
-        pygame.draw.rect(surface, (255,0,0), self.base_hp)
+        pygame.draw.rect(surface, (0,0,0), self.base_hp)
         pygame.draw.rect(surface, (0,0,0), self.base_stamina)
-        
+        pygame.draw.rect(surface,'red',self.hp_now)
+        pygame.draw.rect(surface, 'blue', self.stamina_now)
+
     def move(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
@@ -33,3 +42,37 @@ class Player:
             self.hit_box.x -= self.speed
         if keys[pygame.K_d]:
             self.hit_box.x += self.speed
+    def change_hp(self,amount,get=True):
+        if get:
+
+            self.hp += amount
+            if self.hp > self.max_hp:
+                self.hp = self.max_hp
+        else:
+
+            self.hp -= amount
+            if self.hp < 0:
+                self.hp = 0
+
+        self.hp_now = pygame.Rect(0, 0, self.hp * 2 - 10, 25)
+        self.hp_now.left = self.base_hp.left + 5
+        self.hp_now.centery = self.base_hp.centery
+
+    def change_stamina(self,amount,get=True):
+
+        if get:
+
+            self.stamina += amount
+            if  self.stamina > self.max_stamina:
+                self.stamina = self.max_stamina
+        else:
+
+            self.stamina -= amount
+            if  self.stamina < 0:
+                self.stamina =  0
+
+        self.stamina_now = pygame.Rect(0, 0, self.stamina * 2 - 10, 25)
+        self.stamina_now.left = self.base_stamina.left + 5
+        self.stamina_now.centery = self.base_stamina.centery
+
+
