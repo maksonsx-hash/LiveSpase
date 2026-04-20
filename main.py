@@ -29,10 +29,12 @@ timer = 0
 fps = 120
 seconds = 10
 
-day = 1 * seconds * fps
-night = 1 * seconds * fps
-sun_move = 1 * seconds * fps
+hp_by24 = 20
 
+day = 12 * seconds * fps
+night = 8 * seconds * fps
+sun_move = 2 * seconds * fps
+h24 = day + night + sun_move * 2
 current_time = 'day'
 
 while running:
@@ -65,7 +67,6 @@ while running:
 
     elif screen_mod == 'game':
 
-
         screen.fill((0, 0, 0))
         if player.hit_box.left > S_W:
             map_.change_map('right')
@@ -85,15 +86,20 @@ while running:
                 tile.draw(screen)
 
         map_.map['krator'].draw(screen)
+        trap = map_.map['trap']
+        if trap:
+            if trap.hit_box.colliderect(player.hit_box):
+                player.change_hp(trap.damage, get=False)
+
+            trap.draw(screen)
 
         player.draw(screen)
         player.move()
-
+        player.change_hp(hp_by24/ h24, )
         print((day - timer) // 60, current_time)
         if current_time == 'day':
             alpha = 0
             if timer > day:
-
                 timer = 0
                 current_time = 'sunset'
 
@@ -134,7 +140,7 @@ while running:
         x, y = map_.player_pos
         player = Player(x, y)
         screen_mod = 'game'
-        timer,current_time = map_.time
+        timer, current_time = map_.time
     elif screen_mod == 'settings':
         screen.blit(background_image_list[BACKGROUND_INDEX], (0, 0))
         for button in setting_button_list:
@@ -158,8 +164,7 @@ while running:
 
         screen_size_holder.draw(screen)
     elif screen_mod == 'save':
-        saved_map = map_.save_map(timer,current_time,player_pos=player.hit_box.center)
-
+        saved_map = map_.save_map(timer, current_time, player_pos=player.hit_box.center)
 
         save_settings(saved_map, 'map.json')
         print('игра сохранена')

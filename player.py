@@ -22,7 +22,7 @@ class Player:
         self.stamina_now = pygame.Rect(0, 0, self.stamina * 2 - 10, 25)
         self.stamina_now.left = self.base_stamina.left + 5
         self.stamina_now.centery = self.base_stamina.centery
-        self.stamina_now.collideobjects()
+
         
 
     def draw(self, surface):
@@ -44,17 +44,17 @@ class Player:
             self.hit_box.x += self.speed
     def change_hp(self,amount,get=True):
         if get:
-
+            print('получаем ', amount)
             self.hp += amount
             if self.hp > self.max_hp:
                 self.hp = self.max_hp
         else:
-
+            print('теряем', amount)
             self.hp -= amount
             if self.hp < 0:
                 self.hp = 0
 
-        self.hp_now = pygame.Rect(0, 0, self.hp * 2 - 10, 25)
+        self.hp_now = pygame.Rect(0, 0, round(self.hp) * 2 - 10, 25)
         self.hp_now.left = self.base_hp.left + 5
         self.hp_now.centery = self.base_hp.centery
 

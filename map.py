@@ -6,6 +6,7 @@ from config import S_W, S_H
 from tile import Tile
 from krator import Krator
 from utils import load_settings
+from traps import Trap
 
 
 class Map:
@@ -105,7 +106,8 @@ class Map:
             cell_row_temp = []
             for cell in cell_row:
                 local_map = {'map': [],
-                             'krator': None}
+                             'krator': None,
+                             'trap': None}
                 for row in cell.get('map'):
                     row_temp = []
                     for tile in row:
@@ -114,10 +116,15 @@ class Map:
                         row_temp.append(tile_origin)
                     local_map['map'].append(row_temp)
                 krator = cell.get('krator')
+                trap = cell.get('trap')
 
                 e_krator = Krator(0,0,'')
                 e_krator.load(krator)
                 local_map['krator'] = e_krator
+                if trap:
+                    e_trap = Trap(0,0)
+                    e_trap.load(trap)
+                    local_map['trap'] = e_trap
                 cell_row_temp.append(local_map)
             self.global_map.append(cell_row_temp)
         self.map = self.global_map[self.y][self.x]
@@ -135,14 +142,18 @@ class Map:
             cell_row_temp = []
             for cell in cell_row:
                 local_map = {'map': [],
-                             'krator': None}
+                             'krator': None,
+                             'trap': None}
                 for row in cell.get('map'):
                     row_temp = []
                     for tile in row:
                         row_temp.append(tile.save_tile())
                     local_map['map'].append(row_temp)
                 krator = cell.get('krator')
+                trap = cell.get('trap')
                 local_map['krator'] = krator.save()
+                if trap:
+                    local_map['trap'] = trap.save()
                 cell_row_temp.append(local_map)
             data['global_map'].append(cell_row_temp)
         return data
@@ -168,10 +179,15 @@ class Map:
 
         self.map = self.global_map[self.y][self.x]
 
-    def create_map(self, type_=None):
+    def create_map(self, type_=None, is_trap = None):
         krator = Krator(random.randint(80,S_W-80),random.randint(80,S_H-80), type_)
+        if is_trap:
+            trap = Trap(random.randint(80, S_W-80), random.randint(80, S_H-80 ))
+        else:
+            trap = None
         self.map = {'map': [],
                     'krator': krator,
+                    'trap': trap,
                     }
         for y in range(45):
             row = []
@@ -189,19 +205,29 @@ class Map:
 
     def create_global_map(self):
         crator_pos = self.random_pos_krator(['gold', 'orange'], 20)
+        trap_pos = self.random_pos_krator(['trap'], 20)
         for y in range(1, 11):
             one_row = []
             for x in range(1, 11):
                 current_map_pos = x, y
-                if current_map_pos in crator_pos ['gold']:
-                    self.create_map('gold')
-                    print(current_map_pos)
-                elif current_map_pos in crator_pos ['orange']:
-                    self.create_map('orange')
-                    print(current_map_pos)
+                if current_map_pos in trap_pos['trap']:
+                    if current_map_pos in crator_pos ['gold']:
+                        self.create_map('gold', 'trap')
+                        print(current_map_pos)
+                    elif current_map_pos in crator_pos ['orange']:
+                        self.create_map('orange', 'trap')
+                        print(current_map_pos)
+                    else:
+                        self.create_map(is_trap='trap')
                 else:
-                    self.create_map()
-
+                    if current_map_pos in crator_pos ['gold']:
+                        self.create_map('gold')
+                        print(current_map_pos)
+                    elif current_map_pos in crator_pos ['orange']:
+                        self.create_map('orange')
+                        print(current_map_pos)
+                    else:
+                        self.create_map()
 
                 one_row.append(self.map)
             self.global_map.append(one_row)

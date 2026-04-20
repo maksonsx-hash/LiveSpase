@@ -2,7 +2,7 @@ import pygame
 import random
 
 
-class Traps:
+class Trap:
     def __init__(self, x, y):
         self.w = random.randint(80, 160)
         self.color = (255, 0, 0, 15)
@@ -46,6 +46,7 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+        screen.fill('white')
         a.draw(screen)
         pygame.display.update()
 
