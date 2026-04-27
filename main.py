@@ -7,7 +7,7 @@ from tile import Tile
 import pygame
 
 from init import *
-from config import SCREEN_SIZE, SCREEN_INDEX, BACKGROUND_INDEX
+from config import SCREEN_SIZE, SCREEN_INDEX, BACKGROUND_INDEX, font
 
 from utils import save_settings
 
@@ -31,8 +31,8 @@ seconds = 10
 
 hp_by24 = 20
 
-day = 12 * seconds * fps
-night = 8 * seconds * fps
+day = 1 * seconds * fps
+night = 1 * seconds * fps
 sun_move = 2 * seconds * fps
 h24 = day + night + sun_move * 2
 current_time = 'day'
@@ -46,6 +46,7 @@ while running:
     keys = pygame.key.get_pressed()
     if keys[pygame.K_ESCAPE]:
         screen_mod = 'menu'
+
     if screen_mod == 'menu':
         screen.blit(background_image_list[BACKGROUND_INDEX], (0, 0))
 
@@ -63,6 +64,7 @@ while running:
                     screen_mod = 'settings'
                 elif button == button_save:
                     screen_mod = 'save'
+
 
 
     elif screen_mod == 'game':
@@ -90,8 +92,12 @@ while running:
         if trap:
             if trap.hit_box.colliderect(player.hit_box):
                 player.change_hp(trap.damage, get=False)
-
             trap.draw(screen)
+
+        if player.hp == 0:
+            
+            screen_mod = 'die'
+
 
         player.draw(screen)
         player.move()
@@ -130,6 +136,21 @@ while running:
         if keys[pygame.K_m]:
             map_.show_map = not map_.show_map
         map_.draw_map(screen)
+
+    elif screen_mod == 'die':
+        text_img = font.render('вы умерли, нажмите пробел', True, (0, 0, 0))
+        text_rect = text_img.get_rect()
+        text_rect.center =( S_W/2,S_H/2)
+        screen.fill((255,255,255))
+        screen.blit(text_img, text_rect)
+
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+            player.hp = player.max_hp
+            player.stamina = player.max_stamina
+            screen_mod = 'menu'
+
     elif screen_mod == 'newgame':
         player = Player(S_W / 2, S_H / 2)
         map_ = Map()
