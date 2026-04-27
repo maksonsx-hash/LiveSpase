@@ -95,13 +95,11 @@ while running:
             trap.draw(screen)
 
         if player.hp == 0:
-            
             screen_mod = 'die'
-
 
         player.draw(screen)
         player.move()
-        player.change_hp(hp_by24/ h24, )
+        player.change_hp(hp_by24 / h24, )
         print((day - timer) // 60, current_time)
         if current_time == 'day':
             alpha = 0
@@ -136,6 +134,19 @@ while running:
         if keys[pygame.K_m]:
             map_.show_map = not map_.show_map
         map_.draw_map(screen)
+
+    elif screen_mod == 'die':
+        text_img = font.render('вы умерли, нажмите пробел', True, (0, 0,0 ))
+        text_rect = text_img.get_rect()
+        text_rect.center = (S_W/2, S_H/2)
+        screen.fill((255, 255, 255))
+        screen.blit(text_img, text_rect)
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+            player.hp = player.max_hp
+            player.stamina = player.max_stamina
+            screen_mod = 'menu'
 
     elif screen_mod == 'die':
         text_img = font.render('вы умерли, нажмите пробел', True, (0, 0, 0))

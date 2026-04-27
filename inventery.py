@@ -9,8 +9,18 @@ class Inventory:
          self.rect = pygame.Rect(20,20,S_W/3,S_H-40)
          self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
          self.surface.fill(self.color)
+         self.row_surface = pygame.Surface((self.rect.width, 20), pygame.SRCALPHA)
+         self.row_surface.fill(self.color)
      def draw(self,screen):
          screen.blit(self.surface,self.rect)
+         for y, item in enumerate(self.items):
+             gap = 2
+             if y == 0:
+                 pass
+             else:
+                 y = y * (gap + 20)
+             print(y)
+             screen.blit(self.row_surface, (self.rect.x, self.rect.y + y))
 
 
 
