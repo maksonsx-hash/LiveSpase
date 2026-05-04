@@ -24,6 +24,7 @@ class Inventory:
             item_path = IMAGE_MAP.get(item.get("name"))
             if item_path:
                 image = pygame.image.load(item_path)
+                image = pygame.transform.smoothscale(image,(20,20))
             else:
                 image = font.render('none', True, (255, 255, 255))
             self.items[index]['image'] = image
@@ -45,7 +46,7 @@ class Inventory:
 
             icone_img = item.get('image')
             icone_img_rect = icone_img.get_rect()
-            icone_img_rect.centery = text_img_rect.centery
+            icone_img_rect.centery = text_img_rect.centery+2
             icone_img_rect.x = self.rect.x + 5
             screen.blit(icone_img, icone_img_rect)
 
