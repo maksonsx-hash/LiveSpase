@@ -50,6 +50,11 @@ class Inventory:
             icone_img_rect.x = self.rect.x + 5
             screen.blit(icone_img, icone_img_rect)
 
+            text_num = font.render(str(item.get('value')),True,(255,255,255))
+            text_num_rect = text_num.get_rect()
+            text_num_rect.center = (self.rect.right-25,self.rect.top + y + 8)
+            screen.blit(text_num,text_num_rect)
+
 
 if __name__ == '__main__':
     import pygame
