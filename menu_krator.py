@@ -1,4 +1,5 @@
 import pygame
+from config import font
 
 
 class MenuKrator:
@@ -12,16 +13,32 @@ class MenuKrator:
         self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
         self.surface.fill(self.color)
         self.gap = 5
-        self.name_surface = pygame.Surface(((self.rect.width - self.gap * 3) / 2, (self.rect.height - self.gap * 3) / 2),
-                                           pygame.SRCALPHA)
-        self.name_surface.fill(self.color)
-        self.kolvo_surface = pygame.Surface(((self.rect.width - self.gap * 3) / 2, (self.rect.height - self.gap * 3) / 2),
-                                            pygame.SRCALPHA)
-        self.timer_surface = pygame.Surface(((self.rect.width - self.gap * 2), (self.rect.height - self.gap * 3) / 2),
-                                            pygame.SRCALPHA)
+        self.name_image = font.render(self.name, True, 'white')
+        self.timer_image = font.render(str(self.timer), True, 'white')
+        self.kolvo_image = font.render(str(self.kolvo), True, 'white')
 
+        self.name_rect = pygame.Rect(
+            self.gap, self.gap,
+            (self.rect.width - self.gap * 3) / 2, (self.rect.height - self.gap * 3) / 2)
+        self.kolvo_rect = pygame.Rect(
+            self.gap * 2 + self.name_rect.width, self.gap,
+            (self.rect.width - self.gap * 3) / 2, (self.rect.height - self.gap * 3) / 2)
+        self.timer_rect = pygame.Rect(
+            self.gap, self.gap * 2 + self.name_rect.height,
+            (self.rect.width - self.gap * 2), (self.rect.height - self.gap * 3) / 2)
+        self.timer_image_rect = self.timer_image.get_rect()
+        self.timer_image_rect.center = self.timer_rect.center
+        self.name_image_rect = self.name_image.get_rect()
+        self.name_image_rect.center = self.name_rect.center
+        self.kolvo_image_rect = self.kolvo_image.get_rect()
+        self.kolvo_image_rect.center = self.kolvo_rect.center
     def draw(self, screen):
-        self.surface.blit(self.name_surface,(self.gap,self.gap))
+        pygame.draw.rect(self.surface, self.color2, self.name_rect)
+        pygame.draw.rect(self.surface, self.color2, self.kolvo_rect)
+        pygame.draw.rect(self.surface, self.color2, self.timer_rect)
+        self.surface.blit(self.name_image, self.name_image_rect)
+        self.surface.blit(self.kolvo_image, self.kolvo_image_rect)
+        self.surface.blit(self.timer_image, self.timer_image_rect)
         screen.blit(self.surface, self.rect)
 
 
