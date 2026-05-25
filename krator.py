@@ -2,6 +2,7 @@ import random
 import pygame
 from menu_krator import MenuKrator
 from bUttons import Button
+from player import Player
 
 NAME_MAPPING ={'gold':{'name':'золотой','value_min':10,'value_max':20,'timer':300},
                'orange':{'name':'железный','value_min':15,'value_max':30,'timer':200},}
@@ -18,8 +19,9 @@ class Krator:
         self.hit_box = pygame.Rect(x, y, self.w, self.w)
         self.hit_box.center = (x, y)
         self.random_value_choice(type_)
+        self.show_menu = False
         self.menu_krator = MenuKrator(self.name,self.timer,self.value)
-        self.button = Button(self.hit_box.centerx,self.hit_box.centery,40,70,'black','открыть меню кратора')
+        self.button = Button(self.hit_box.centerx,self.hit_box.centery,70,40,'blue','открыть')
 
 
     def random_value_choice(self,type_):
@@ -33,7 +35,7 @@ class Krator:
             self.value = 0
             self.timer = 0
             self.name = '0'
-    def draw(self, screen):
+    def draw(self, screen, player_hit_box):
         if not self.invisible:
 
             # pygame.draw.rect(screen, (255, 13, 67), self.hit_box, border_radius=int(self.w / 2))
@@ -41,7 +43,14 @@ class Krator:
             pygame.draw.circle(screen, self.a, self.hit_box.center, self.hit_box.width / 2)
             pygame.draw.circle(screen, self.b, self.hit_box.center, self.hit_box.width / 3)
             pygame.draw.circle(screen, self.c, self.hit_box.center, self.hit_box.width / 5)
-
+            if self.hit_box.colliderect (player_hit_box):
+                self.button.update(screen)
+                if self.button.action_:
+                   self.show_menu = True
+                if self.show_menu:
+                    self.menu_krator.draw(screen)
+            else:
+                self.show_menu = False
     def chose_color(self, type_):
         if type_ == 'orange':
             self.a = random.randint(200, 255), random.randint(100, 165), random.randint(0, 50)
@@ -86,6 +95,7 @@ if __name__ == '__main__':
 
     S_W = 500
     S_H = 500
+    player = Player(S_W / 2, S_H / 2)
     screen = pygame.display.set_mode((S_W, S_H))
     running = True
     a = Krator(250, 250, 'gold')
@@ -94,6 +104,9 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-        a.draw(screen)
+        screen.fill((255, 255, 255))
+        a.draw(screen, player.hit_box)
+        player.draw(screen)
+        player.move()
         pygame.display.update()
 
