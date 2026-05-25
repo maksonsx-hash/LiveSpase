@@ -1,6 +1,10 @@
 import random
 import pygame
+from menu_krator import MenuKrator
+from bUttons import Button
 
+NAME_MAPPING ={'gold':{'name':'золотой','value_min':10,'value_max':20,'timer':300},
+               'orange':{'name':'железный','value_min':15,'value_max':30,'timer':200},}
 
 
 
@@ -13,7 +17,22 @@ class Krator:
         self.color = (self.a, self.b, self.c)
         self.hit_box = pygame.Rect(x, y, self.w, self.w)
         self.hit_box.center = (x, y)
+        self.random_value_choice(type_)
+        self.menu_krator = MenuKrator(self.name,self.timer,self.value)
+        self.button = Button(self.hit_box.centerx,self.hit_box.centery,40,70,'black','открыть меню кратора')
 
+
+    def random_value_choice(self,type_):
+        if type_ in NAME_MAPPING.keys():
+            temp_dict = NAME_MAPPING.get(type_)
+            self.timer = temp_dict.get('timer')
+            self.name =temp_dict.get('name')
+            self.value = random.randint(temp_dict.get('value_min'), temp_dict.get('value_max'))
+
+        else:
+            self.value = 0
+            self.timer = 0
+            self.name = '0'
     def draw(self, screen):
         if not self.invisible:
 
@@ -39,7 +58,10 @@ class Krator:
                 'pos': self.hit_box.center,
                 'width': self.hit_box.width,
                 'color': self.color,
-                'invisible':self.invisible}
+                'invisible':self.invisible,
+                'name':self.name,
+                'value':self.value,
+                'timer':self.timer}
         return data
 
     def load(self, data):
@@ -50,6 +72,9 @@ class Krator:
         self.hit_box.center = (x, y)
         self.color = data.get('color')
         self.invisible = data.get('invisible')
+        self.timer = data.get('timer')
+        self.value = data.get('value')
+        self.name = data.get('name')
         self.a, self.b, self.c = self.color
     def __str__(self):
         text = f'''тип:{self.type_}, цвет:{self.color}, место:{self.hit_box.center}, прозрачность:{self.invisible}'''

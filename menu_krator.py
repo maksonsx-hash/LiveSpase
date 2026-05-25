@@ -3,6 +3,7 @@ from config import font
 
 
 class MenuKrator:
+
     def __init__(self, name, timer, kolvo):
         self.name = name
         self.timer = timer
