@@ -1,6 +1,9 @@
 import pygame
 import random
 from config import S_W,S_H
+from inventery import Inventory
+
+
 
 class Player:
     def __init__(self, x, y):
@@ -22,8 +25,18 @@ class Player:
         self.stamina_now = pygame.Rect(0, 0, self.stamina * 2 - 10, 25)
         self.stamina_now.left = self.base_stamina.left + 5
         self.stamina_now.centery = self.base_stamina.centery
+        self.inventory = Inventory()
+        self.show_inventory = False
 
         
+    def draw_inventory(self, surface):
+        if self.show_inventory:
+           self.inventory.draw(surface)
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_e]:
+            self.show_inventory = not self.show_inventory
+
+
 
     def draw(self, surface):
         pygame.draw.rect(surface, self.color, self.hit_box)
@@ -31,6 +44,7 @@ class Player:
         pygame.draw.rect(surface, (0,0,0), self.base_stamina)
         pygame.draw.rect(surface,'red',self.hp_now)
         pygame.draw.rect(surface, 'blue', self.stamina_now)
+        self.draw_inventory(surface)
 
     def move(self):
         keys = pygame.key.get_pressed()

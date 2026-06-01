@@ -1,4 +1,5 @@
-from config import font
+from config import *
+import pygame
 
 IMAGE_MAP = {'железо': 'images/res/iron.png',
              'золото': 'images/res/gold.png'}
