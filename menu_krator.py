@@ -42,6 +42,16 @@ class MenuKrator:
         self.surface.blit(self.timer_image, self.timer_image_rect)
         screen.blit(self.surface, self.rect)
 
+    def update_timer(self):
+        self.timer -= 1
+        if self.timer <= 0:
+            self.timer = 0
+            self.kolvo += 50
+
+
+        self.timer_image = font.render(str(self.timer), True, 'white')
+        self.kolvo_image = font.render(str(self.kolvo), True, 'white')
+
 
 if __name__ == '__main__':
     import pygame
@@ -52,10 +62,15 @@ if __name__ == '__main__':
     a = MenuKrator('золото', 10, 50)
     clock = pygame.time.Clock()
     fps = 120
+    timer = 0
+    past_time = 0
     while running:
-        clock.tick(fps)
-        if int(clock)%120 == 0:
-            a.timer-=1
+        timer += clock.tick(fps)
+        now_time = timer//1000
+        if now_time > past_time:
+            past_time = now_time
+            a.update_timer()
+            print(now_time, a.timer)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
