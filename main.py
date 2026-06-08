@@ -90,6 +90,7 @@ while running:
                 tile.draw(screen)
 
         map_.map['krator'].draw(screen, player.hit_box)
+
         trap = map_.map['trap']
         if trap:
             if trap.hit_box.colliderect(player.hit_box):

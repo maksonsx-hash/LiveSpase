@@ -50,8 +50,12 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode((S_W, S_H))
     running = True
     a = MenuKrator('золото', 10, 50)
+    clock = pygame.time.Clock()
+    fps = 120
     while running:
-
+        clock.tick(fps)
+        if int(clock)%120 == 0:
+            a.timer-=1
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False

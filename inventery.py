@@ -20,6 +20,13 @@ class Inventory:
         self.row_surface = pygame.Surface((self.rect.width, 20), pygame.SRCALPHA)
         self.row_surface.fill(self.color)
 
+    def add_items(self,krator):
+
+        self.dict = {}
+        for i in self.items:
+            if i['name'] == krator.name:
+                i['value'] += krator.value
+
     def load_image(self):
         for index, item in enumerate(self.items):
             item_path = IMAGE_MAP.get(item.get("name"))
