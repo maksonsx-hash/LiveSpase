@@ -26,6 +26,8 @@ alpha = 0
 
 timer = 0
 
+pressed = False
+
 fps = 120
 seconds = 10
 
@@ -129,10 +131,16 @@ while running:
         alpha = max(0, min(200, alpha))
         fog.fill((10, 10, 10, int(alpha)))
         screen.blit(fog, (0, 0))
-
+        temp_pressed = pressed
         keys = pygame.key.get_pressed()
         if keys[pygame.K_m]:
-            map_.show_map = not map_.show_map
+            pressed = True
+        else:
+            pressed = False
+
+        if temp_pressed == True:
+            if temp_pressed != pressed:
+                map_.show_map = not map_.show_map
         map_.draw_map(screen)
 
     elif screen_mod == 'die':
