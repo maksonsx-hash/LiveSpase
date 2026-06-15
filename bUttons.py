@@ -3,8 +3,8 @@ from config import font
 
 
 class Button:
-    def __init__(self, x, y, width, height,color, text):
-        self.rect = pygame.Rect(x-width/2, y-height/2, width, height)
+    def __init__(self, x_center, y_center, width, height,color, text):
+        self.rect = pygame.Rect(x_center-width/2, y_center-height/2, width, height)
         self.color = color
         self.standart_color = color
         self.active_color = 'white'

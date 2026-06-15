@@ -1,5 +1,6 @@
 import pygame
 from config import font
+from bUttons import Button
 
 
 class MenuKrator:
@@ -18,6 +19,7 @@ class MenuKrator:
         self.timer_image = font.render(str(self.timer), True, 'white')
         self.kolvo_image = font.render(str(self.kolvo), True, 'white')
 
+        self.click_rect = Button(self.rect.centerx, self.rect.centery, 100, 50, 'blue', 'Забрать' )
         self.name_rect = pygame.Rect(
             self.gap, self.gap,
             (self.rect.width - self.gap * 3) / 2, (self.rect.height - self.gap * 3) / 2)
@@ -41,12 +43,23 @@ class MenuKrator:
         self.surface.blit(self.kolvo_image, self.kolvo_image_rect)
         self.surface.blit(self.timer_image, self.timer_image_rect)
         screen.blit(self.surface, self.rect)
+        self.click_rect.update(screen)
+        if self.click_rect.action_:
+            self.kolvo = 0
 
     def update_timer(self):
-        self.timer -= 1
-        if self.timer <= 0:
-            self.timer = 0
-            self.kolvo += 50
+        if self.kolvo >= 150:
+            pass
+        else:
+            if self.kolvo >0:
+                pass
+            else:
+                self.timer -= 1
+                if self.timer <= 0:
+                    self.timer = 0
+                    self.kolvo += 50
+
+
 
 
         self.timer_image = font.render(str(self.timer), True, 'white')
