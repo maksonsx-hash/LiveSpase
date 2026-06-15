@@ -35,7 +35,7 @@ class Krator:
             self.value = 0
             self.timer = 0
             self.name = '0'
-    def draw(self, screen, player_hit_box):
+    def draw(self, screen, player_hit_box,now_time):
         if not self.invisible:
 
             # pygame.draw.rect(screen, (255, 13, 67), self.hit_box, border_radius=int(self.w / 2))
@@ -48,7 +48,7 @@ class Krator:
                 if self.button.action_:
                    self.show_menu = True
                 if self.show_menu:
-                    self.menu_krator.draw(screen)
+                    self.menu_krator.draw(screen,now_time)
             else:
                 self.show_menu = False
     def chose_color(self, type_):

@@ -1,5 +1,6 @@
 import random
 
+from krator import Krator
 from player import Player
 from map import Map
 from tile import Tile
@@ -39,7 +40,17 @@ sun_move = 2 * seconds * fps
 h24 = day + night + sun_move * 2
 current_time = 'day'
 
+past_time = 0
+timer2 = 0
+
 while running:
+
+
+    timer2 += clock.tick(fps)
+    now_time = timer2 // 1000
+    if now_time > past_time:
+        past_time = now_time
+        print(now_time)
     timer += 1
     clock.tick(fps)
     for event in pygame.event.get():
@@ -89,7 +100,7 @@ while running:
             for tile in row:
                 tile.draw(screen)
 
-        map_.map['krator'].draw(screen, player.hit_box)
+        map_.map['krator'].draw(screen, player.hit_box,now_time)
 
         trap = map_.map['trap']
         if trap:

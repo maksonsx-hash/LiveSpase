@@ -35,7 +35,7 @@ class MenuKrator:
         self.name_image_rect.center = self.name_rect.center
         self.kolvo_image_rect = self.kolvo_image.get_rect()
         self.kolvo_image_rect.center = self.kolvo_rect.center
-    def draw(self, screen):
+    def draw(self, screen,now_time):
         pygame.draw.rect(self.surface, self.color2, self.name_rect)
         pygame.draw.rect(self.surface, self.color2, self.kolvo_rect)
         pygame.draw.rect(self.surface, self.color2, self.timer_rect)
@@ -45,19 +45,19 @@ class MenuKrator:
         screen.blit(self.surface, self.rect)
         self.click_rect.update(screen)
         if self.click_rect.action_:
+            if self.kolvo!=0:
+                self.time_resurs = now_time
             self.kolvo = 0
 
     def update_timer(self):
-        if self.kolvo >= 150:
-            pass
+        if self.kolvo != 0:
+            self.timer = 10
+
         else:
-            if self.kolvo >0:
-                pass
-            else:
-                self.timer -= 1
-                if self.timer <= 0:
-                    self.timer = 0
-                    self.kolvo += 50
+            self.timer-=1
+            if self.timer == 0:
+                self.timer = 0
+                self.kolvo = 50
 
 
 
