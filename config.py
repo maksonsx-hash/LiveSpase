@@ -10,12 +10,15 @@ if os.path.exists('Save.json'):
     data = load_settings()
     SCREEN_INDEX = data.get('SCREEN_INDEX')
     BACKGROUND_INDEX = data.get('BACKGROUND_INDEX')
+    timer2 = data.get('NOW_TIME')
 else:
     print("Не существует")
     SCREEN_INDEX = 3
     BACKGROUND_INDEX = 0
+    timer2 = 0
     data = {'SCREEN_INDEX':3,
-            'BACKGROUND_INDEX':0}
+            'BACKGROUND_INDEX':0,
+            'NOW_TIME':0}
     save_settings(data)
 
 font = pygame.font.SysFont('Comic Sans', 18)

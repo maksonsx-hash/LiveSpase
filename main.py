@@ -8,7 +8,7 @@ from tile import Tile
 import pygame
 
 from init import *
-from config import SCREEN_SIZE, SCREEN_INDEX, BACKGROUND_INDEX, font
+from config import SCREEN_SIZE, SCREEN_INDEX, BACKGROUND_INDEX, font, timer2
 
 from utils import save_settings
 
@@ -41,7 +41,7 @@ h24 = day + night + sun_move * 2
 current_time = 'day'
 
 past_time = 0
-timer2 = 0
+
 
 while running:
 
@@ -225,6 +225,6 @@ while running:
             main_buttons_list.append(button_cont)
 
     pygame.display.update()
-data = {'SCREEN_INDEX': SCREEN_INDEX, 'BACKGROUND_INDEX': BACKGROUND_INDEX}
+data = {'SCREEN_INDEX': SCREEN_INDEX, 'BACKGROUND_INDEX': BACKGROUND_INDEX, 'NOW_TIME': timer2}
 save_settings(data)
 print(data)
