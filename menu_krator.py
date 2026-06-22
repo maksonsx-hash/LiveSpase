@@ -44,23 +44,9 @@ class MenuKrator:
         self.surface.blit(self.timer_image, self.timer_image_rect)
         screen.blit(self.surface, self.rect)
         self.click_rect.update(screen)
-        if self.click_rect.action_:
-            if self.kolvo!=0:
-                self.time_resurs = now_time
-            self.kolvo = 0
+
 
     def update_timer(self):
-        if self.kolvo != 0:
-            self.timer = 10
-
-        else:
-            self.timer-=1
-            if self.timer == 0:
-                self.timer = 0
-                self.kolvo = 50
-
-
-
 
         self.timer_image = font.render(str(self.timer), True, 'white')
         self.kolvo_image = font.render(str(self.kolvo), True, 'white')

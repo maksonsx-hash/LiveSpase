@@ -4,7 +4,7 @@ from menu_krator import MenuKrator
 from bUttons import Button
 from player import Player
 
-NAME_MAPPING ={'gold':{'name':'золотой','value_min':10,'value_max':20,'timer':300},
+NAME_MAPPING ={'gold':{'name':'золотой','value_min':10,'value_max':20,'timer':5},
                'orange':{'name':'железный','value_min':15,'value_max':30,'timer':200},}
 
 
@@ -35,6 +35,7 @@ class Krator:
             self.value = 0
             self.timer = 0
             self.name = '0'
+        self.empty_time = 0
     def draw(self, screen, player_hit_box,now_time):
         if not self.invisible:
 
@@ -48,7 +49,17 @@ class Krator:
                 if self.button.action_:
                    self.show_menu = True
                 if self.show_menu:
+
                     self.menu_krator.draw(screen,now_time)
+
+                    if self.menu_krator.click_rect.action_:
+                        if self.value !=0:
+                            self.empty_time = now_time
+                        self.value = 0
+                        self.menu_krator.kolvo = 0
+                    draw_time = ( self.empty_time+self.timer)-now_time
+                    self.menu_krator.timer = draw_time
+                    self.menu_krator.update_timer()
             else:
                 self.show_menu = False
     def chose_color(self, type_):
@@ -98,14 +109,26 @@ if __name__ == '__main__':
     player = Player(S_W / 2, S_H / 2)
     screen = pygame.display.set_mode((S_W, S_H))
     running = True
+    timer2 =  0
+    fps = 120
+    clock = pygame.time.Clock()
+    past_time = 0
     a = Krator(250, 250, 'gold')
     while running:
+
+        timer2 += clock.tick(fps)
+        now_time = timer2 // 1000
+        if now_time > past_time:
+            past_time = now_time
+            print(now_time)
+
+        clock.tick(fps)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
         screen.fill((255, 255, 255))
-        a.draw(screen, player.hit_box)
+        a.draw(screen, player.hit_box,now_time)
         player.draw(screen)
         player.move()
         pygame.display.update()
