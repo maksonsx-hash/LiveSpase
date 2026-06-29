@@ -46,12 +46,7 @@ past_time = 0
 while running:
 
 
-    timer2 += clock.tick(fps)
-    now_time = timer2 // 1000
-    if now_time > past_time:
-        past_time = now_time
-        print(now_time)
-    timer += 1
+
     clock.tick(fps)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -71,8 +66,10 @@ while running:
                     running = False
                 elif button == button_ng:
                     screen_mod = 'newgame'
+                elif button == button_load:
+                    screen_mod = 'load'
                 elif button == button_cont:
-                    screen_mod = 'continue'
+                    screen_mod = 'game'
                 elif button == button_set:
                     screen_mod = 'settings'
                 elif button == button_save:
@@ -81,6 +78,12 @@ while running:
 
 
     elif screen_mod == 'game':
+        timer2 += clock.tick(fps)
+        now_time = timer2 // 1000
+        if now_time > past_time:
+            past_time = now_time
+            print(now_time)
+        timer += 1
 
         screen.fill((0, 0, 0))
         if player.hit_box.left > S_W:
@@ -186,7 +189,13 @@ while running:
         player = Player(S_W / 2, S_H / 2)
         map_ = Map()
         screen_mod = 'game'
-    elif screen_mod == 'continue':
+        main_buttons_list.append(button_cont)
+        main_buttons_list.append(button_save)
+        main_buttons_list.remove(button_ng)
+    elif screen_mod == 'load':
+        main_buttons_list.append(button_save)
+        main_buttons_list.append(button_cont)
+
 
         map_ = Map(new_game=False)
         x, y = map_.player_pos
@@ -221,8 +230,8 @@ while running:
         save_settings(saved_map, 'map.json')
         print('игра сохранена')
         screen_mod = 'menu'
-        if button_cont not in main_buttons_list:
-            main_buttons_list.append(button_cont)
+        if button_load not in main_buttons_list:
+            main_buttons_list.append(button_load)
 
     pygame.display.update()
 data = {'SCREEN_INDEX': SCREEN_INDEX, 'BACKGROUND_INDEX': BACKGROUND_INDEX, 'NOW_TIME': timer2}

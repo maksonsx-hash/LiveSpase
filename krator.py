@@ -112,6 +112,7 @@ class Krator:
         self.a, self.b, self.c = self.color
         self.max_value = data.get('max_value')
         self.empty_time = data.get('empty_time')
+        self.menu_krator = MenuKrator(self.name, self.timer, self.value)
 
     def __str__(self):
         text = f'''тип:{self.type_}, цвет:{self.color}, место:{self.hit_box.center}, прозрачность:{self.invisible}'''

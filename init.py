@@ -7,9 +7,11 @@ from config import S_W, S_H
 
 button_ng = Button(85, 55, 150, 50, '#CCCC99', 'новая игра')
 button_cont = Button(85, 135, 150, 50, (128, 128, 0), 'продолжить')
-button_save = Button(85, 210, 150, 50, '#00ffff', 'сохранить игру')
+button_load = Button(85, 215, 150, 50, 'purple', 'загрузка' )
+button_save = Button(85, 290, 150, 50, '#00ffff', 'сохранить игру')
 button_set = Button(85, S_H - 135, 150, 50, 'green', 'настройки игры')
 button_exit = Button(85, S_H - 55, 150, 50, 'green', 'выйти из игры')
+
 
 set_button_background = Button(85, 55, 150, 50, '#CCCC99', 'фон')
 set_button_size_b = Button(400, 55, 75, 50, 'green', '>')
@@ -18,9 +20,10 @@ screen_size_holder = TextHolder(300, 55, 100, 50, 'white', f'{S_W}-{S_H}')
 
 
 
-main_buttons_list = [button_ng, button_save, button_set, button_exit]
+main_buttons_list = [button_ng, button_set, button_exit]
 if os.path.exists('map.json'):
-    main_buttons_list.append(button_cont)
+    main_buttons_list.append(button_load)
+    main_buttons_list.remove(button_ng)
 
 setting_button_list = [set_button_background, set_button_size_b, set_button_size_s]
 
